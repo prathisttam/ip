@@ -39,7 +39,7 @@ public class Ui {
         System.out.print("Your choice: ");
     }
 
-    public void printDashedLine(){
+    public void printDashedLine() {
         System.out.println("____________________________________________________________");
     }
 }
