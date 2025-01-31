@@ -3,6 +3,9 @@ import java.util.Scanner;
 public class Echo {
     Ui userInterface = new Ui(); // Add Ui as a class variable
 
+    /**
+     * Echoes commands entered by the user until user inputs the command "bye"
+     */
     public void startEcho() {
         System.out.println("Game Started!");
         System.out.println("____________________________________________________________");

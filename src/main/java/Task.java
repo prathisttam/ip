@@ -2,7 +2,9 @@ public class Task {
     private String taskDescription;
     private boolean isCompleted;
 
-    //constructor when initialising a task
+    /**
+     * Creates a new task with the given description.
+     */
     public Task(String taskDescription) {
         this.taskDescription = taskDescription;
         this.isCompleted = false;
@@ -16,6 +18,11 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
+    /**
+     * Returns the status icon depending on whether a task is completed.
+     *
+     * @return "X" if the task is completed, otherwise a space " ".
+     */
     public String getStatusIcon() {
         return (isCompleted ? "X" : " "); // mark done task with X
     }
