@@ -34,7 +34,12 @@ public class Ui {
     public void showMenu() {
         System.out.println("\nChoose an option:");
         System.out.println("1 - Play the game Echo!");
-        System.out.println("2 - Exit");
+        System.out.println("2 - Manage Tasks");
+        System.out.println("3 - Exit");
         System.out.print("Your choice: ");
+    }
+
+    public void printDashedLine(){
+        System.out.println("____________________________________________________________");
     }
 }

@@ -7,6 +7,7 @@ public class Simba {
 
         Scanner sc = new Scanner(System.in);
         Echo echoGame = new Echo();
+        AllTasksManager allTasksManager = new AllTasksManager();
 
         while (true) {
             userInterface.showMenu();
@@ -20,10 +21,12 @@ public class Simba {
             if (input.equals("1")) {
                 echoGame.startEcho();
             } else if (input.equals("2")) {
+                allTasksManager.startTaskManagement();
+            } else if (input.equals("3")) {
                 userInterface.showExitMessage();
                 break;
             } else {
-                System.out.println("Invalid input! Please enter 1 or 2.");
+                System.out.println("Invalid input! Please enter 1, 2 or 3.");
             }
         }
 
