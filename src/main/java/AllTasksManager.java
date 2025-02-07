@@ -4,7 +4,8 @@ import java.util.Scanner;
  * Manages a list of tasks, allowing users to add, list, mark and unmark tasks.
  */
 public class AllTasksManager {
-    private Task[] tasksList = new Task[100];
+    private static final int MAX_TASKS = 100;
+    private Task[] tasksList = new Task[MAX_TASKS];
     private int taskListIndex = 0;
 
     /**
@@ -35,26 +36,24 @@ public class AllTasksManager {
         case "todo":
             newTask = new Todo(taskDetails);
             addTaskToArray(newTask);
-            System.out.println("Got it. I've added this task:\n" + "  " + newTask.toString());
             break;
         case "deadline":
             newTask = createDeadline(taskDetails);
             if (newTask != null) {
                 addTaskToArray(newTask);
-                System.out.println("Got it. I've added this task:\n" + "  " + newTask.toString());
             }
             break;
         case "event":
             newTask = createEvent(taskDetails);
             if(newTask != null) {
                 addTaskToArray(newTask);
-                System.out.println("Got it. I've added this task:\n" + "  " + newTask.toString());
             }
             break;
         default:
             System.out.println("Invalid command! Please use 'todo', 'event' or 'deadline'!");
             return;
         }
+        System.out.println("Got it. I've added this task:\n" + "  " + newTask.toString());
         System.out.println("Now you have " + (taskListIndex) + " tasks in the list.");
         userInterface.printDashedLine();
     }
@@ -64,15 +63,12 @@ public class AllTasksManager {
         taskListIndex += 1;
     }
 
-    private Task createEvent(String taskDetails) {
-        String[] parts = taskDetails.split(" /from ", 2);
-        if (parts.length < 2 || !parts[1].contains(" /to ")) {
-            System.out.println("Invalid event format! Use: event <description> /from <start time> /to <end time>");
-            return null;
-        }
-        return new Event(parts[0], parts[1]);
-    }
-
+    /**
+     * Creates a Deadline task by extracting the task description and due date from the input string.
+     * @param taskDetails The input string containing the task description and due date, formatted as:
+     *  *                   "description /by dueDate".
+     * @return A new Deadline object if the input is valid, otherwise returns null and prints an error message.
+     */
     private Task createDeadline(String taskDetails) {
         String[] parts = taskDetails.split(" /by ", 2);
         if (parts.length < 2) {
@@ -80,6 +76,21 @@ public class AllTasksManager {
             return null;
         }
         return new Deadline(parts[0], parts[1]);
+    }
+
+    /**
+     * Creates an Event task by extracting the task description, start time, and end time from the input string.
+     * @param taskDetails taskDetails The input string containing the task description, start time, and end time,
+     *  *                    formatted as: "description /from startTime /to endTime".
+     * @return A new Event object if the input is valid, otherwise returns null and prints an error message.
+     */
+    private Task createEvent(String taskDetails) {
+        String[] parts = taskDetails.split(" /from ", 2);
+        if (parts.length < 2 || !parts[1].contains(" /to ")) {
+            System.out.println("Invalid event format! Use: event <description> /from <start time> /to <end time>");
+            return null;
+        }
+        return new Event(parts[0], parts[1]);
     }
 
     /**
