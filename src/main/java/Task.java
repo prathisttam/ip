@@ -35,4 +35,8 @@ public class Task {
         isCompleted = false;
     }
 
+    public String toString() {
+        return "[" + this.getStatusIcon() + "] " + taskDescription;
+    }
+
 }

@@ -8,7 +8,7 @@ public class AllTasksManager {
     private int taskListIndex = 0;
 
     /**
-     * Uses the Ui class to handle resuable user interface components
+     * Uses the Ui class to handle reusable user interface components
      */
     Ui userInterface = new Ui();
 
@@ -17,12 +17,69 @@ public class AllTasksManager {
      *
      * @param taskDescription The description of the task to be added
      */
-    public void addTask(String taskDescription) {
-        tasksList[taskListIndex] = new Task(taskDescription);
+    public void createTaskFromInput(String taskDescription) {
+        String[] parts = taskDescription.split(" ", 2); // To separate out type of task
+
+        if (parts.length < 2) {
+            System.out.println("Invalid command! Please provide a task description.");
+            return;
+        }
+
+        userInterface.printDashedLine();
+
+        String taskType = parts[0].toLowerCase();
+        String taskDetails = parts[1];
+        Task newTask = null;
+
+        switch(taskType){
+        case "todo":
+            newTask = new Todo(taskDetails);
+            addTaskToArray(newTask);
+            System.out.println("Got it. I've added this task:\n" + "  " + newTask.toString());
+            break;
+        case "deadline":
+            newTask = createDeadline(taskDetails);
+            if (newTask != null) {
+                addTaskToArray(newTask);
+                System.out.println("Got it. I've added this task:\n" + "  " + newTask.toString());
+            }
+            break;
+        case "event":
+            newTask = createEvent(taskDetails);
+            if(newTask != null) {
+                addTaskToArray(newTask);
+                System.out.println("Got it. I've added this task:\n" + "  " + newTask.toString());
+            }
+            break;
+        default:
+            System.out.println("Invalid command! Please use 'todo', 'event' or 'deadline'!");
+            return;
+        }
+        System.out.println("Now you have " + (taskListIndex) + " tasks in the list.");
+        userInterface.printDashedLine();
+    }
+
+    private void addTaskToArray(Task task){
+        tasksList[taskListIndex] = task;
         taskListIndex += 1;
-        userInterface.printDashedLine();
-        System.out.println("added: " + taskDescription);
-        userInterface.printDashedLine();
+    }
+
+    private Task createEvent(String taskDetails) {
+        String[] parts = taskDetails.split(" /from ", 2);
+        if (parts.length < 2 || !parts[1].contains(" /to ")) {
+            System.out.println("Invalid event format! Use: event <description> /from <start time> /to <end time>");
+            return null;
+        }
+        return new Event(parts[0], parts[1]);
+    }
+
+    private Task createDeadline(String taskDetails) {
+        String[] parts = taskDetails.split(" /by ", 2);
+        if (parts.length < 2) {
+            System.out.println("Invalid deadline format! Use: deadline <description> /by <date>");
+            return null;
+        }
+        return new Deadline(parts[0], parts[1]);
     }
 
     /**
@@ -33,7 +90,7 @@ public class AllTasksManager {
         userInterface.printDashedLine();
         for (int i = 0; i < taskListIndex; i++) {
             Task currentTask = tasksList[i];
-            System.out.println(taskIndex + ".[" + currentTask.getStatusIcon() + "] " + currentTask.getTaskDescription());
+            System.out.println(taskIndex + "." + currentTask.toString()); //new
             taskIndex += 1;
         }
         userInterface.printDashedLine();
@@ -46,9 +103,37 @@ public class AllTasksManager {
      */
     public void printSingleTask(int number) {
         Task currentTask = tasksList[number - 1];
-        System.out.println("  [" + currentTask.getStatusIcon() + "] " + currentTask.getTaskDescription());
+        System.out.println("  " + currentTask.toString());
+    }
+    
+    private void handleMark(String userInput) {
+        String[] parts = userInput.split(" ");
+        if (parts.length > 1) {
+            int number = Integer.parseInt(parts[1]);
+            if (number > 0 && number <= taskListIndex) {
+                tasksList[number - 1].markAsCompleted();
+                userInterface.printDashedLine();
+                System.out.println("Nice! I've marked this task as done:");
+                printSingleTask(number);
+                userInterface.printDashedLine();
+            }
+        }
     }
 
+    private void handleUnmark(String input) {
+        String[] parts = input.split(" ");
+        if (parts.length > 1) {
+            int number = Integer.parseInt(parts[1]);
+            if (number > 0 && number <= taskListIndex) {
+                tasksList[number - 1].markAsIncomplete();
+                userInterface.printDashedLine();
+                System.out.println("OK, I've marked this task as not done yet:");
+                printSingleTask(number);
+                userInterface.printDashedLine();
+            }
+        }
+    }
+    
     /**
      * Handles user input for adding, listing, marking and unmarking tasks.
      * User can enter command "bye" to exit
@@ -67,32 +152,13 @@ public class AllTasksManager {
             } else if (input.equalsIgnoreCase("list")) {
                 listTasks();
             } else if (input.startsWith("mark")) {
-                String[] parts = input.split(" ");
-                if (parts.length > 1) {
-                    int number = Integer.parseInt(parts[1]);
-                    if (number > 0 && number <= taskListIndex) {
-                        tasksList[number - 1].markAsCompleted();
-                        userInterface.printDashedLine();
-                        System.out.println("Nice! I've marked this task as done:");
-                        printSingleTask(number);
-                        userInterface.printDashedLine();
-                    }
-                }
+                handleMark(input);
             } else if (input.startsWith("unmark")) {
-                String[] parts = input.split(" ");
-                if (parts.length > 1) {
-                    int number = Integer.parseInt(parts[1]);
-                    if (number > 0 && number <= taskListIndex) {
-                        tasksList[number - 1].markAsIncomplete();
-                        userInterface.printDashedLine();
-                        System.out.println("OK, I've marked this task as not done yet:");
-                        printSingleTask(number);
-                        userInterface.printDashedLine();
-                    }
-                }
+                handleUnmark(input);
             } else {
-                addTask(input);
+                createTaskFromInput(input);
             }
         }
     }
+
 }
