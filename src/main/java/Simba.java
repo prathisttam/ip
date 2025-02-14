@@ -10,29 +10,23 @@ public class Simba {
         AllTasksManager allTasksManager = new AllTasksManager();
 
         while (true) {
-            try {
-                userInterface.showMenu();
-                String input = sc.nextLine().trim();
+            userInterface.showMenu();
+            String input = sc.nextLine().trim();
 
-                if (input.equalsIgnoreCase("bye")) {
-                    userInterface.showExitMessage();
-                    break;
-                }
+            if (input.equalsIgnoreCase("bye")) {
+                userInterface.showExitMessage();
+                break;
+            }
 
-                if (input.equals("1")) {
-                    echoGame.startEcho();
-                } else if (input.equals("2")) {
+            if (input.equals("1")) {
+                echoGame.startEcho();
+            } else if (input.equals("2")) {
                     allTasksManager.startTaskManagement();
-                } else if (input.equals("3")) {
-                    userInterface.showExitMessage();
-                    break;
-                } else {
-                    System.out.println("Invalid input! Please enter 1, 2 or 3.");
-                }
-            } catch (Exception e) {
-                userInterface.printDashedLine();
-                System.out.println("An unexpected error ccured: " + e.getMessage());
-                userInterface.printDashedLine();
+            } else if (input.equals("3")) {
+                userInterface.showExitMessage();
+                break;
+            } else {
+                System.out.println("Invalid input! Please enter 1, 2 or 3.");
             }
         }
 
