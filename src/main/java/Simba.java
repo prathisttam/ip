@@ -11,7 +11,7 @@ public class Simba {
 
         while (true) {
             userInterface.showMenu();
-            String input = sc.nextLine();
+            String input = sc.nextLine().trim();
 
             if (input.equalsIgnoreCase("bye")) {
                 userInterface.showExitMessage();
@@ -21,7 +21,7 @@ public class Simba {
             if (input.equals("1")) {
                 echoGame.startEcho();
             } else if (input.equals("2")) {
-                allTasksManager.startTaskManagement();
+                    allTasksManager.startTaskManagement();
             } else if (input.equals("3")) {
                 userInterface.showExitMessage();
                 break;

@@ -18,12 +18,11 @@ public class AllTasksManager {
      *
      * @param taskDescription The description of the task to be added
      */
-    public void createTaskFromInput(String taskDescription) {
+    public void createTaskFromInput(String taskDescription) throws SimbaException {
         String[] parts = taskDescription.split(" ", 2); // To separate out type of task
 
-        if (parts.length < 2) {
-            System.out.println("Invalid command! Please provide a task description.");
-            return;
+        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+            throw new SimbaException("Invalid Command :( Please provide a valid task description.");
         }
 
         userInterface.printDashedLine();
@@ -38,24 +37,39 @@ public class AllTasksManager {
             addTaskToArray(newTask);
             break;
         case "deadline":
-            newTask = createDeadline(taskDetails);
-            if (newTask != null) {
-                addTaskToArray(newTask);
+            try {
+                newTask = createDeadline(taskDetails);
+                if (newTask != null) {
+                    addTaskToArray(newTask);
+                }
+            } catch (SimbaException e) {
+                userInterface.printDashedLine();
+                System.out.println(e.getMessage());
+                userInterface.printDashedLine();
             }
             break;
         case "event":
-            newTask = createEvent(taskDetails);
-            if(newTask != null) {
-                addTaskToArray(newTask);
+            try {
+                newTask = createEvent(taskDetails);
+                if(newTask != null) {
+                    addTaskToArray(newTask);
+                }
+            } catch (SimbaException e) {
+                userInterface.printDashedLine();
+                System.out.println(e.getMessage());
+                userInterface.printDashedLine();
             }
+
             break;
         default:
-            System.out.println("Invalid command! Please use 'todo', 'event' or 'deadline'!");
-            return;
+            throw new SimbaException("Invalid command to add tasks! \n" + "Valid Commands:todo, deadline, event");
         }
-        System.out.println("Got it. I've added this task:\n" + "  " + newTask.toString());
-        System.out.println("Now you have " + (taskListIndex) + " tasks in the list.");
-        userInterface.printDashedLine();
+
+        if (newTask!= null){
+            System.out.println("Got it. I've added this task:\n" + "  " + newTask.toString());
+            System.out.println("Now you have " + (taskListIndex) + " tasks in the list.");
+            userInterface.printDashedLine();
+        }
     }
 
     private void addTaskToArray(Task task){
@@ -69,11 +83,12 @@ public class AllTasksManager {
      *  *                   "description /by dueDate".
      * @return A new Deadline object if the input is valid, otherwise returns null and prints an error message.
      */
-    private Task createDeadline(String taskDetails) {
+    private Task createDeadline(String taskDetails) throws SimbaException {
         String[] parts = taskDetails.split(" /by ", 2);
-        if (parts.length < 2) {
-            System.out.println("Invalid deadline format! Use: deadline <description> /by <date>");
-            return null;
+        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+            throw new SimbaException("Invalid deadline format!\n"
+                    + "Usage: deadline <description> /by <date string>\n"
+                    + "Example: deadline Submit report /by sunday");
         }
         return new Deadline(parts[0], parts[1]);
     }
@@ -84,11 +99,12 @@ public class AllTasksManager {
      *  *                    formatted as: "description /from startTime /to endTime".
      * @return A new Event object if the input is valid, otherwise returns null and prints an error message.
      */
-    private Task createEvent(String taskDetails) {
+    private Task createEvent(String taskDetails) throws SimbaException{
         String[] parts = taskDetails.split(" /from ", 2);
         if (parts.length < 2 || !parts[1].contains(" /to ")) {
-            System.out.println("Invalid event format! Use: event <description> /from <start time> /to <end time>");
-            return null;
+            throw new SimbaException("Invalid event format!\n"
+                    + "Usage: event <description> /from <start to end time string>\n"
+                    + "Example: event Team meeting /from 10:00 AM to 12:00 PM");
         }
         return new Event(parts[0], parts[1]);
     }
@@ -96,15 +112,19 @@ public class AllTasksManager {
     /**
      * Lists all tasks in the order in which they were added.
      */
-    public void listTasks() {
-        int taskIndex = 1;
-        userInterface.printDashedLine();
-        for (int i = 0; i < taskListIndex; i++) {
-            Task currentTask = tasksList[i];
-            System.out.println(taskIndex + "." + currentTask.toString()); //new
-            taskIndex += 1;
-        }
-        userInterface.printDashedLine();
+    public void listTasks() throws SimbaException{
+       if(taskListIndex == 0) {
+           throw new SimbaException("Your task list is empty. Add a task using todo, deadline or event.");
+       }
+
+       int taskIndex = 1;
+       userInterface.printDashedLine();
+       for (int i = 0; i < taskListIndex; i++) {
+           Task currentTask = tasksList[i];
+           System.out.println(taskIndex + "." + currentTask.toString()); //new
+           taskIndex += 1;
+       }
+       userInterface.printDashedLine();
     }
 
     /**
@@ -117,32 +137,56 @@ public class AllTasksManager {
         System.out.println("  " + currentTask.toString());
     }
     
-    private void handleMark(String userInput) {
+    private void handleMark(String userInput) throws SimbaException {
         String[] parts = userInput.split(" ");
-        if (parts.length > 1) {
-            int number = Integer.parseInt(parts[1]);
-            if (number > 0 && number <= taskListIndex) {
-                tasksList[number - 1].markAsCompleted();
-                userInterface.printDashedLine();
-                System.out.println("Nice! I've marked this task as done:");
-                printSingleTask(number);
-                userInterface.printDashedLine();
-            }
+
+        if (parts.length <2) {
+            throw new SimbaException("Please provide a task number to mark as completed.\nUsage: mark <task_number>");
         }
+
+        int taskNumber;
+
+        try {
+            taskNumber = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException e) {
+            throw new SimbaException("Invalid task number! Please enter a number.\n Example: mark 2");
+        }
+
+        if (taskNumber <= 0 || taskNumber > taskListIndex){
+            throw new SimbaException("Invalid task number! No task exists at that index.");
+        }
+
+        tasksList[taskNumber - 1].markAsCompleted();
+        userInterface.printDashedLine();
+        System.out.println("Nice! I've marked this task as done:");
+        printSingleTask(taskNumber);
+        userInterface.printDashedLine();
     }
 
-    private void handleUnmark(String input) {
+    private void handleUnmark(String input) throws SimbaException {
         String[] parts = input.split(" ");
-        if (parts.length > 1) {
-            int number = Integer.parseInt(parts[1]);
-            if (number > 0 && number <= taskListIndex) {
-                tasksList[number - 1].markAsIncomplete();
-                userInterface.printDashedLine();
-                System.out.println("OK, I've marked this task as not done yet:");
-                printSingleTask(number);
-                userInterface.printDashedLine();
-            }
+
+        if(parts.length < 2){
+            throw new SimbaException("Please provide a task number to unmark.\nUsage: unmark <task_number>");
         }
+
+        int taskNumber;
+
+        try{
+            taskNumber = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException e) {
+            throw new SimbaException("Invalid task number! Please enter a number.\n Example: unmark 2");
+        }
+
+        if (taskNumber <= 0 || taskNumber > taskListIndex){
+            throw new SimbaException("Invalid task number! No task exists at that index.");
+        }
+
+        tasksList[taskNumber - 1].markAsIncomplete();
+        userInterface.printDashedLine();
+        System.out.println("OK, I've marked this task as not done yet:");
+        printSingleTask(taskNumber);
+        userInterface.printDashedLine();
     }
     
     /**
@@ -161,13 +205,37 @@ public class AllTasksManager {
                 userInterface.showExitMessage();
                 break;
             } else if (input.equalsIgnoreCase("list")) {
-                listTasks();
+                try {
+                    listTasks();
+                } catch (SimbaException e) {
+                    userInterface.printDashedLine();
+                    System.out.println(e.getMessage());
+                    userInterface.printDashedLine();
+                }
             } else if (input.startsWith("mark")) {
-                handleMark(input);
+                try {
+                    handleMark(input);
+                } catch (SimbaException e) {
+                    userInterface.printDashedLine();
+                    System.out.println(e.getMessage());
+                    userInterface.printDashedLine();
+                }
             } else if (input.startsWith("unmark")) {
-                handleUnmark(input);
+                try {
+                    handleUnmark(input);
+                } catch (SimbaException e) {
+                   userInterface.printDashedLine();
+                   System.out.println(e.getMessage());
+                   userInterface.printDashedLine();
+                }
             } else {
-                createTaskFromInput(input);
+                try {
+                    createTaskFromInput(input);
+                } catch (SimbaException e) {
+                    userInterface.printDashedLine();
+                    System.out.println(e.getMessage());
+                    userInterface.printDashedLine();
+                }
             }
         }
     }
