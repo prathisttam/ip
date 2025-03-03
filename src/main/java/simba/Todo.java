@@ -1,3 +1,5 @@
+package simba;
+
 public class Todo extends Task{
 
     public Todo(String taskDescription){
@@ -7,5 +9,10 @@ public class Todo extends Task{
     @Override
     public String toString() {
         return "[T]" + super.toString();
+    }
+
+    @Override
+    public String toStorageString(){
+        return "T | " + super.toStorageString();
     }
 }

@@ -1,3 +1,5 @@
+package simba;
+
 public class Deadline extends Task {
 
     protected String by;
@@ -19,4 +21,8 @@ public class Deadline extends Task {
         return "[D]" + super.toString() + " (by: " + by + ")";
     }
 
+    @Override
+    public String toStorageString(){
+        return "D | " + super.toStorageString() + getBy();
+    }
 }
