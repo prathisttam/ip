@@ -1,12 +1,13 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * Manages a list of tasks, allowing users to add, list, mark and unmark tasks.
  */
 public class AllTasksManager {
-    private static final int MAX_TASKS = 100;
-    private Task[] tasksList = new Task[MAX_TASKS];
-    private int taskListIndex = 0;
+    //private static final int MAX_TASKS = 100;
+    private ArrayList<Task> tasksList = new ArrayList<>();
+    //private int taskListIndex = 0;
 
     /**
      * Uses the Ui class to handle reusable user interface components
@@ -39,9 +40,7 @@ public class AllTasksManager {
         case "deadline":
             try {
                 newTask = createDeadline(taskDetails);
-                if (newTask != null) {
-                    addTaskToArray(newTask);
-                }
+                addTaskToArray(newTask);
             } catch (SimbaException e) {
                 userInterface.printDashedLine();
                 System.out.println(e.getMessage());
@@ -51,9 +50,7 @@ public class AllTasksManager {
         case "event":
             try {
                 newTask = createEvent(taskDetails);
-                if(newTask != null) {
-                    addTaskToArray(newTask);
-                }
+                addTaskToArray(newTask);
             } catch (SimbaException e) {
                 userInterface.printDashedLine();
                 System.out.println(e.getMessage());
@@ -67,14 +64,15 @@ public class AllTasksManager {
 
         if (newTask!= null){
             System.out.println("Got it. I've added this task:\n" + "  " + newTask.toString());
-            System.out.println("Now you have " + (taskListIndex) + " tasks in the list.");
+            System.out.println("Now you have " + (tasksList.size()) + " tasks in the list.");
             userInterface.printDashedLine();
         }
     }
 
     private void addTaskToArray(Task task){
-        tasksList[taskListIndex] = task;
-        taskListIndex += 1;
+        tasksList.add(task);
+        //tasksList[taskListIndex] = task;
+        //taskListIndex += 1;
     }
 
     /**
@@ -113,15 +111,14 @@ public class AllTasksManager {
      * Lists all tasks in the order in which they were added.
      */
     public void listTasks() throws SimbaException{
-       if(taskListIndex == 0) {
+       if(tasksList.isEmpty()) {
            throw new SimbaException("Your task list is empty. Add a task using todo, deadline or event.");
        }
 
        int taskIndex = 1;
        userInterface.printDashedLine();
-       for (int i = 0; i < taskListIndex; i++) {
-           Task currentTask = tasksList[i];
-           System.out.println(taskIndex + "." + currentTask.toString()); //new
+       for (Task task: tasksList) {
+           System.out.println(taskIndex + "." + task.toString()); //new
            taskIndex += 1;
        }
        userInterface.printDashedLine();
@@ -133,30 +130,14 @@ public class AllTasksManager {
      * @param number The position of the task in the list (1-based index).
      */
     public void printSingleTask(int number) {
-        Task currentTask = tasksList[number - 1];
+        Task currentTask = tasksList.get(number - 1);
         System.out.println("  " + currentTask.toString());
     }
     
     private void handleMark(String userInput) throws SimbaException {
-        String[] parts = userInput.split(" ");
+        int taskNumber = getTaskNumber(userInput, "Please provide a task number to mark as completed.\nUsage: mark <task_number>", "Invalid task number! Please enter a number.\n Example: mark 2");
 
-        if (parts.length <2) {
-            throw new SimbaException("Please provide a task number to mark as completed.\nUsage: mark <task_number>");
-        }
-
-        int taskNumber;
-
-        try {
-            taskNumber = Integer.parseInt(parts[1]);
-        } catch (NumberFormatException e) {
-            throw new SimbaException("Invalid task number! Please enter a number.\n Example: mark 2");
-        }
-
-        if (taskNumber <= 0 || taskNumber > taskListIndex){
-            throw new SimbaException("Invalid task number! No task exists at that index.");
-        }
-
-        tasksList[taskNumber - 1].markAsCompleted();
+        tasksList.get(taskNumber-1).markAsCompleted();
         userInterface.printDashedLine();
         System.out.println("Nice! I've marked this task as done:");
         printSingleTask(taskNumber);
@@ -164,31 +145,49 @@ public class AllTasksManager {
     }
 
     private void handleUnmark(String input) throws SimbaException {
-        String[] parts = input.split(" ");
+        int taskNumber = getTaskNumber(input, "Please provide a task number to unmark.\nUsage: unmark <task_number>", "Invalid task number! Please enter a number.\n Example: unmark 2");
 
-        if(parts.length < 2){
-            throw new SimbaException("Please provide a task number to unmark.\nUsage: unmark <task_number>");
-        }
-
-        int taskNumber;
-
-        try{
-            taskNumber = Integer.parseInt(parts[1]);
-        } catch (NumberFormatException e) {
-            throw new SimbaException("Invalid task number! Please enter a number.\n Example: unmark 2");
-        }
-
-        if (taskNumber <= 0 || taskNumber > taskListIndex){
-            throw new SimbaException("Invalid task number! No task exists at that index.");
-        }
-
-        tasksList[taskNumber - 1].markAsIncomplete();
+        tasksList.get(taskNumber - 1).markAsIncomplete();
         userInterface.printDashedLine();
         System.out.println("OK, I've marked this task as not done yet:");
         printSingleTask(taskNumber);
         userInterface.printDashedLine();
     }
-    
+
+    public void handleDelete(String input) throws SimbaException {
+        int taskNumber = getTaskNumber(input, "Please provide a task number to delete.\nUsage: delete <task_number>", "Invalid task number! Please enter a number.\n Example: delete 2");
+
+        Task taskToDelete = tasksList.get(taskNumber - 1);
+        tasksList.remove(taskNumber - 1);
+
+        userInterface.printDashedLine();
+        System.out.println("Noted. I've removed this task:");
+        System.out.println("  " + taskToDelete.toString());
+        System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
+        userInterface.printDashedLine();
+    }
+
+    private int getTaskNumber(String input, String message, String message1) throws SimbaException {
+        String[] parts = input.split(" ");
+
+        if (parts.length < 2) {
+            throw new SimbaException(message);
+        }
+
+        int taskNumber;
+
+        try {
+            taskNumber = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException e) {
+            throw new SimbaException(message1);
+        }
+
+        if (taskNumber <= 0 || taskNumber > tasksList.size()) {
+            throw new SimbaException("Invalid task number! No task exists at that index.");
+        }
+        return taskNumber;
+    }
+
     /**
      * Handles user input for adding, listing, marking and unmarking tasks.
      * User can enter command "bye" to exit
@@ -224,9 +223,17 @@ public class AllTasksManager {
                 try {
                     handleUnmark(input);
                 } catch (SimbaException e) {
-                   userInterface.printDashedLine();
-                   System.out.println(e.getMessage());
-                   userInterface.printDashedLine();
+                    userInterface.printDashedLine();
+                    System.out.println(e.getMessage());
+                    userInterface.printDashedLine();
+                }
+            } else if (input.startsWith("delete")) {
+                try {
+                    handleDelete(input);
+                } catch (SimbaException e) {
+                    userInterface.printDashedLine();
+                    System.out.println(e.getMessage());
+                    userInterface.printDashedLine();
                 }
             } else {
                 try {
