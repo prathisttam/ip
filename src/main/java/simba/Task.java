@@ -1,3 +1,5 @@
+package simba;
+
 public class Task {
     private String taskDescription;
     private boolean isCompleted;
@@ -39,4 +41,7 @@ public class Task {
         return "[" + this.getStatusIcon() + "] " + taskDescription;
     }
 
+    public String toStorageString(){
+        return (isCompleted ? "1" : "0" ) +"|" + getTaskDescription();
+    }
 }

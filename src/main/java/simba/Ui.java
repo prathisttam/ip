@@ -1,3 +1,5 @@
+package simba;
+
 public class Ui {
     public void showWelcomeMessage() {
         String logo =
