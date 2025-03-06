@@ -272,8 +272,8 @@ public class AllTasksManager {
     //recheck this
     private void saveTasksToStorage() {
         List<String> tasksToSave = new ArrayList<>();
-        for (int i = 0; i < taskListIndex; i++) {
-            tasksToSave.add(tasksList[i].toStorageString());
+        for (Task task: tasksList) {
+            tasksToSave.add(task.toStorageString());
         }
 
         try {
