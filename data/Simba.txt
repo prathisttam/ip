@@ -5,5 +5,9 @@ T | 1|hi
 T | 1|hello
 T | 0|eat
 T | 0|eat
-T | 0|eat
-T | 0|sleep
+D | 0|return | bookSunday
+E | 0|project meeting |Mon 2pm | 4pm
+D | 0|return book | Sunday
+D | 0|return book | Sunday
+D | 1|return book | Sunday
+E | 0|project meeting |Mon 2pm | 4pm

@@ -12,14 +12,6 @@ public class Event extends Task {
         this.eventEndTime = eventEndTime;
     }
 
-//    public String getEvent(){
-//        return event;
-//    }
-//
-//    public void setEvent(String event){
-//        this.event = event;
-//    }
-
     public String toString(){
         return "[E]" + super.toString() + " (from: " + eventStartTime + " to: " + eventEndTime + ")";
     }
@@ -42,6 +34,6 @@ public class Event extends Task {
 
     @Override
     public String toStorageString(){
-        return "E | " + super.toStorageString() + " |" + getEventStartTime() + "to" + getEventEndTime();
+        return "E | " + super.toStorageString() + " |" + getEventStartTime() + " | " + getEventEndTime();
     }
 }

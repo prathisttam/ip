@@ -288,7 +288,7 @@ public class AllTasksManager {
                 throw new SimbaException("Corrupt deadline, skipping: " + taskLine);
             }
 
-            String by = parts[3];
+            String by = parts[3].trim();
             Deadline deadline = new Deadline(description, by);
 
             if (isCompleted) {
@@ -296,17 +296,12 @@ public class AllTasksManager {
             }
             return deadline;
         case "E":
-            if (parts.length < 4) {
-                throw new SimbaException("Corrupt event, skipping: " + taskLine);
-            }
-            String[] subParts = parts[3].split("to:");
-
-            if (subParts.length < 2) {
+            if (parts.length < 5) {
                 throw new SimbaException("Corrupt event, skipping: " + taskLine);
             }
 
-            String from = subParts[0];
-            String to = subParts[1];
+            String from = parts[3].trim();
+            String to = parts[4].trim();
             Event event = new Event(description, from, to);
 
             if (isCompleted) {
