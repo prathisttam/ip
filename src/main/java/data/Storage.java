@@ -32,17 +32,6 @@ public class Storage {
         }
     }
 
-//    public void saveTasksToStorage(String textToAppend) throws IOException {
-//        try {
-//            FileWriter fw = new FileWriter(FILE_PATH, true);
-//            fw.write(textToAppend + System.lineSeparator());
-//            //fw.close();
-//        } catch (IOException e) {
-//            System.out.println("Error writing to file: " + e.getMessage());
-//            throw e;
-//        }
-//    }
-//
      // Processed string --> Basically everything is formatted already
     public void saveTasks(String textToWrite) throws IOException {
         try ( FileWriter fw = new FileWriter(FILE_PATH)) {

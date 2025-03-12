@@ -8,19 +8,25 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 import java.util.List;
+
 /**
  * Manages a list of tasks, allowing users to add, list, mark and unmark tasks.
  */
 public class AllTasksManager {
     //private static final int MAX_TASKS = 100;
-    private ArrayList<Task> tasksList = new ArrayList<>();
+    private static ArrayList<Task> tasksList = new ArrayList<>();
     //private int taskListIndex = 0;
+
+    public static ArrayList<Task> getTasksList() {
+        return tasksList;
+    }
 
     /**
      * Uses the Ui class to handle reusable user interface components
      */
     Ui userInterface = new Ui();
     Storage storage;
+
     {
         try {
             storage = new Storage();
@@ -28,7 +34,6 @@ public class AllTasksManager {
             throw new RuntimeException(e);
         }
     }
-
 
     /**
      * Constructor: Load tasks from file at startup
@@ -42,7 +47,7 @@ public class AllTasksManager {
                     addTaskToArray(task);
                 }
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             throw new SimbaException("Unable to load tasks list" + e.getMessage());
         }
     }
@@ -65,7 +70,7 @@ public class AllTasksManager {
         String taskDetails = parts[1];
         Task newTask = null;
 
-        switch(taskType){
+        switch (taskType) {
         case "todo":
             newTask = new Todo(taskDetails);
             addTaskToArray(newTask);
@@ -77,9 +82,7 @@ public class AllTasksManager {
                     addTaskToArray(newTask);
                 }
             } catch (SimbaException e) {
-                userInterface.printDashedLine();
-                System.out.println(e.getMessage());
-                userInterface.printDashedLine();
+                userInterface.printErrorMessage(e.getMessage());
             }
             break;
         case "event":
@@ -89,9 +92,7 @@ public class AllTasksManager {
                     addTaskToArray(newTask);
                 }
             } catch (SimbaException e) {
-                userInterface.printDashedLine();
-                System.out.println(e.getMessage());
-                userInterface.printDashedLine();
+                userInterface.printErrorMessage(e.getMessage());
             }
 
             break;
@@ -101,16 +102,12 @@ public class AllTasksManager {
 
         if (newTask != null) {
             saveTasksToStorage();
-            System.out.println("Got it. I've added this task:\n" + "  " + newTask.toString());
-            System.out.println("Now you have " + (tasksList.size()) + " tasks in the list.");
-            userInterface.printDashedLine();
+            userInterface.printTaskAdded(newTask, tasksList.size());
         }
     }
 
-    private void addTaskToArray(Task task){
+    private void addTaskToArray(Task task) {
         tasksList.add(task);
-        //tasksList[taskListIndex] = task;
-        //taskListIndex += 1;
     }
 
     /**
@@ -139,7 +136,7 @@ public class AllTasksManager {
      */
     private Task createEvent(String taskDetails) throws SimbaException {
         String[] parts = taskDetails.split(" /from ", 2);
-        if (parts.length < 2 ) {
+        if (parts.length < 2) {
             throw new SimbaException("Invalid event format!\n"
                     + "Usage: event <description> /from <start /to end time string>\n"
                     + "Example: event Team meeting /from 10:00 AM /to 12:00 PM");
@@ -149,8 +146,8 @@ public class AllTasksManager {
 
         if (timeParts.length < 2) {
             throw new SimbaException("Invalid time format!\n"
-            + "Usage: time <start /to end time string>\n"
-            + "Example: event project meeting /from Mon 2pm /to 4pm");
+                    + "Usage: time <start /to end time string>\n"
+                    + "Example: event project meeting /from Mon 2pm /to 4pm");
         }
 
         String startTime = timeParts[0];
@@ -162,18 +159,12 @@ public class AllTasksManager {
     /**
      * Lists all tasks in the order in which they were added.
      */
-    public void listTasks() throws SimbaException{
-       if(tasksList.isEmpty()) {
-           throw new SimbaException("Your task list is empty. Add a task using todo, deadline or event.");
-       }
+    public void listTasks() throws SimbaException {
+        if (tasksList.isEmpty()) {
+            throw new SimbaException("Your task list is empty. Add a task using todo, deadline or event.");
+        }
 
-       int taskIndex = 1;
-       userInterface.printDashedLine();
-       for (Task task: tasksList) {
-           System.out.println(taskIndex + "." + task.toString()); //new
-           taskIndex += 1;
-       }
-       userInterface.printDashedLine();
+        userInterface.printTaskList(tasksList);
     }
 
     /**
@@ -182,8 +173,7 @@ public class AllTasksManager {
      * @param number The position of the task in the list (1-based index).
      */
     public void printSingleTask(int number) {
-        Task currentTask = tasksList.get(number - 1);
-        System.out.println("  " + currentTask.toString());
+        userInterface.printSingleTask(number);
     }
 
     private void handleMark(String userInput) throws SimbaException {
@@ -206,10 +196,7 @@ public class AllTasksManager {
         }
 
         tasksList.get(taskNumber - 1).markAsCompleted();
-        userInterface.printDashedLine();
-        System.out.println("Nice! I've marked this task as done:");
-        printSingleTask(taskNumber);
-        userInterface.printDashedLine();
+        userInterface.printMarkedTask(taskNumber);
         saveTasksToStorage();
     }
 
@@ -234,12 +221,7 @@ public class AllTasksManager {
 
         Task taskToDelete = tasksList.get(taskNumber - 1);
         tasksList.remove(taskNumber - 1);
-
-        userInterface.printDashedLine();
-        System.out.println("Noted. I've removed this task:");
-        System.out.println("  " + taskToDelete.toString());
-        System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
-        userInterface.printDashedLine();
+        userInterface.printTaskDeleted(taskToDelete, tasksList.size());
     }
 
     private void handleUnmark(String input) throws SimbaException {
@@ -262,17 +244,14 @@ public class AllTasksManager {
         }
 
         tasksList.get(taskNumber - 1).markAsIncomplete();
-        userInterface.printDashedLine();
-        System.out.println("OK, I've marked this task as not done yet:");
-        printSingleTask(taskNumber);
-        userInterface.printDashedLine();
+        userInterface.printUnmarkedTask(taskNumber);
         saveTasksToStorage();
     }
 
     //recheck this
     private void saveTasksToStorage() {
         List<String> tasksToSave = new ArrayList<>();
-        for (Task task: tasksList) {
+        for (Task task : tasksList) {
             tasksToSave.add(task.toStorageString());
         }
 
@@ -335,10 +314,9 @@ public class AllTasksManager {
             }
 
             return event;
-            default:
-                throw new SimbaException("Unknown task type. Skipping task " + taskType);
+        default:
+            throw new SimbaException("Unknown task type. Skipping task " + taskType);
         }
-
     }
 
     /**
@@ -347,7 +325,7 @@ public class AllTasksManager {
      */
     public void startTaskManagement() {
         //Scanner to read input
-        System.out.println("Please enter the tasks you have yet to complete or type \"List\" to list pending tasks");
+        userInterface.showTaskPrompt();
         Scanner sc = new Scanner(System.in);
 
         while (true) {
@@ -356,48 +334,37 @@ public class AllTasksManager {
             if (input.equalsIgnoreCase("bye")) {
                 userInterface.showExitMessage();
                 break;
-            } else if (input.equalsIgnoreCase("list")) {
+            } else if (input.trim().equalsIgnoreCase("list")) {
                 try {
                     listTasks();
                 } catch (SimbaException e) {
-                    userInterface.printDashedLine();
-                    System.out.println(e.getMessage());
-                    userInterface.printDashedLine();
+                    userInterface.printErrorMessage(e.getMessage());
                 }
             } else if (input.startsWith("mark")) {
                 try {
                     handleMark(input);
                 } catch (SimbaException e) {
-                    userInterface.printDashedLine();
-                    System.out.println(e.getMessage());
-                    userInterface.printDashedLine();
+                    userInterface.printErrorMessage(e.getMessage());
                 }
             } else if (input.startsWith("unmark")) {
                 try {
                     handleUnmark(input);
                 } catch (SimbaException e) {
-                    userInterface.printDashedLine();
-                    System.out.println(e.getMessage());
-                    userInterface.printDashedLine();
+                    userInterface.printErrorMessage(e.getMessage());
                 }
             } else if (input.startsWith("delete")) {
                 try {
                     handleDelete(input);
                 } catch (SimbaException e) {
-                    userInterface.printDashedLine();
-                    System.out.println(e.getMessage());
-                    userInterface.printDashedLine();
+                    userInterface.printErrorMessage(e.getMessage());
                 }
             } else {
                 try {
                     createTaskFromInput(input);
                 } catch (SimbaException e) {
-                    userInterface.printDashedLine();
-                    System.out.println(e.getMessage());
-                    userInterface.printDashedLine();
+                    userInterface.printErrorMessage(e.getMessage());
                 }
             }
         }
     }
-
 }

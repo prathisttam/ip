@@ -29,14 +29,14 @@ public class Simba {
                 try {
                     allTasksManager.startTaskManagement();
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    userInterface.printErrorMessage(e.getMessage());
                 }
                 break;
             case "3":
                 userInterface.showExitMessage();
                 break label;
             default:
-                System.out.println("Invalid input! Please enter 1, 2 or 3.");
+                userInterface.printInvalidMenuChoice();
                 break;
             }
         }
