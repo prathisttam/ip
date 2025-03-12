@@ -10,7 +10,7 @@ public class Echo {
      */
     public void startEcho() {
         System.out.println("Game Started!");
-        System.out.println("____________________________________________________________");
+        userInterface.printDashedLine();
         //Scanner to read input
         Scanner sc = new Scanner(System.in);
 
@@ -23,9 +23,7 @@ public class Echo {
             }
 
             // Echo the command
-            System.out.println("____________________________________________________________");
-            System.out.println(input);
-            System.out.println("____________________________________________________________");
+            userInterface.printEchoedCommands(input);
         }
     }
 }

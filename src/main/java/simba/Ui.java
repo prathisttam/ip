@@ -54,8 +54,10 @@ public class Ui {
         System.out.println("____________________________________________________________");
     }
 
-    public String readCommand(){
-        return scanner.nextLine().trim();
+    public void printEchoedCommands(String input) {
+        printDashedLine();
+        System.out.println(input);
+        printDashedLine();
     }
 
     //prints a general message
