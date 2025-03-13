@@ -8,3 +8,4 @@ E | 0|project meeting |Mon 2pm | 4pm
 D | 0|return book | Sunday
 D | 0|return book | Sunday
 E | 1|hi |2 | 3
+T | 0|eat food

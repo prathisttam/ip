@@ -114,7 +114,24 @@ public class AllTasksManager {
         saveTasksToStorage();
     }
 
-    //recheck this
+    public void handleFind(String keyword) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+
+        for (Task task : tasksList) {
+            if (task.getTaskDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                matchingTasks.add(task);
+            }
+        }
+
+        if (matchingTasks.isEmpty()) {
+            userInterface.printMessage("No matching tasks found.");
+        } else {
+            userInterface.printMessage("Here are the matching tasks in your list:");
+            userInterface.printTaskList(matchingTasks);
+        }
+    }
+
+
     private void saveTasksToStorage() {
         List<String> tasksToSave = new ArrayList<>();
         for (Task task : tasksList) {
@@ -180,6 +197,9 @@ public class AllTasksManager {
                 } catch (SimbaException e) {
                     userInterface.printErrorMessage(e.getMessage());
                 }
+                break;
+            case "find":
+                handleFind(argument);
                 break;
             default:
                 createTaskFromInput(input, parser);
