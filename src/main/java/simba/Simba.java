@@ -1,20 +1,17 @@
 package simba;
 
-import java.util.Scanner;
-
 public class Simba {
     public static void main(String[] args) throws SimbaException {
         Ui userInterface = new Ui();
         userInterface.showWelcomeMessage();
 
-        Scanner sc = new Scanner(System.in);
+        Parser parser = new Parser();
         Echo echoGame = new Echo();
-        AllTasksManager allTasksManager = new AllTasksManager();
+        AllTasksManager allTasksManager = new AllTasksManager(parser);
 
-        label:
         while (true) {
             userInterface.showMenu();
-            String input = sc.nextLine().trim();
+            String input = parser.readCommand();
 
             if (input.equalsIgnoreCase("bye")) {
                 userInterface.showExitMessage();
@@ -23,25 +20,24 @@ public class Simba {
 
             switch (input) {
             case "1":
-                echoGame.startEcho();
+                echoGame.startEcho(parser);
                 break;
             case "2":
                 try {
-                    allTasksManager.startTaskManagement();
-                } catch (Exception e) {
+                    allTasksManager.startTaskManagement(parser);
+                } catch (IndexOutOfBoundsException e) {
                     userInterface.printErrorMessage(e.getMessage());
                 }
                 break;
             case "3":
                 userInterface.showExitMessage();
-                break label;
+                break;
             default:
                 userInterface.printInvalidMenuChoice();
                 break;
             }
         }
-
-        sc.close();
+        parser.closeScanner();
     }
 }
 

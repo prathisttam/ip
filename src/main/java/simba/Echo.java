@@ -8,14 +8,12 @@ public class Echo {
     /**
      * Echoes commands entered by the user until user inputs the command "bye"
      */
-    public void startEcho() {
+    public void startEcho(Parser parser) {
         System.out.println("Game Started!");
         userInterface.printDashedLine();
-        //Scanner to read input
-        Scanner sc = new Scanner(System.in);
 
         while (true) {
-            String input = sc.nextLine();
+            String input = parser.readCommand();
 
             if (input.equalsIgnoreCase("bye")) {
                 userInterface.showExitMessage();
