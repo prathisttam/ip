@@ -16,10 +16,6 @@ public class Task {
         return taskDescription;
     }
 
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
-    }
-
     /**
      * Returns the status icon depending on whether a task is completed.
      *

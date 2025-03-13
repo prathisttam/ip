@@ -1,10 +1,5 @@
 package simba;
 
-import data.Storage;
-
-import java.io.IOException;
-
-
 public class Simba {
     public static void main(String[] args) throws SimbaException {
         Ui userInterface = new Ui();
@@ -26,17 +21,17 @@ public class Simba {
 
             switch (input) {
             case "1":
-                echoGame.startEcho(parser);
+                echoGame.startEcho(parser); // Starts the Echo game
                 break;
             case "2":
                 try {
-                    allTasksManager.startTaskManagement(parser);
+                    allTasksManager.startTaskManagement(parser); // Starts task management
                 } catch (IndexOutOfBoundsException e) {
                     userInterface.printErrorMessage(e.getMessage());
                 }
                 break;
             case "3":
-                userInterface.showExitMessage();
+                userInterface.showExitMessage(); // Exits the application
                 break;
             default:
                 userInterface.printInvalidMenuChoice();

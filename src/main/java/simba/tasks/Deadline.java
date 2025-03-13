@@ -13,14 +13,21 @@ public class Deadline extends Task {
         return by;
     }
 
-    public void setBy(String by) {
-        this.by = by;
-    }
-
+    /**
+     * Returns a string representation of the deadline task.
+     *
+     * @return Formatted string including the task type, description, and due date.
+     */
+    @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: " + by + ")";
     }
 
+    /**
+     * Returns a formatted string representation of the deadline task for storage.
+     *
+     * @return A string formatted for file storage.
+     */
     @Override
     public String toStorageString(){
         return "D | " + super.toStorageString() + " | " + getBy();

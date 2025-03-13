@@ -2,7 +2,6 @@ package simba.tasks;
 
 public class Event extends Task {
 
-    //protected String event;
     protected String eventStartTime;
     protected String eventEndTime;
 
@@ -20,18 +19,15 @@ public class Event extends Task {
         return eventStartTime;
     }
 
-    public void setEventStartTime(String eventStartTime){
-        this.eventStartTime = eventStartTime;
-    }
-
     public String getEventEndTime(){
         return eventEndTime;
     }
 
-    public void setEventEndTime(String eventEndTime){
-        this.eventEndTime = eventEndTime;
-    }
-
+    /**
+     * Returns a string representation of the event task.
+     *
+     * @return Formatted string including the task type, description, start time, and end time.
+     */
     @Override
     public String toStorageString(){
         return "E | " + super.toStorageString() + " |" + getEventStartTime() + " | " + getEventEndTime();

@@ -1,13 +1,12 @@
 package simba;
 
-import java.util.Scanner;
-
+/**
+ * Echoes commands back to the user.
+ * It continuously reads commands until the user types "bye".
+ */
 public class Echo {
-    Ui userInterface = new Ui(); // Add Ui as a class variable
+    Ui userInterface = new Ui();
 
-    /**
-     * Echoes commands entered by the user until user inputs the command "bye"
-     */
     public void startEcho(Parser parser) {
         System.out.println("Game Started!");
         userInterface.printDashedLine();
@@ -20,7 +19,6 @@ public class Echo {
                 break;
             }
 
-            // Echo the command
             userInterface.printEchoedCommands(input);
         }
     }
