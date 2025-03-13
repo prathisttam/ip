@@ -1,5 +1,6 @@
-package simba;
+package simba.utils;
 
+import simba.Exceptions.SimbaException;
 import simba.tasks.Deadline;
 import simba.tasks.Event;
 import simba.tasks.Task;

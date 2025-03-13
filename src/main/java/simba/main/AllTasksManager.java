@@ -1,6 +1,9 @@
-package simba;
+package simba.main;
 
 import data.Storage;
+import simba.Exceptions.SimbaException;
+import simba.utils.Parser;
+import simba.utils.Ui;
 import simba.tasks.Task;
 
 import java.io.FileNotFoundException;

@@ -1,4 +1,8 @@
-package simba;
+package simba.main;
+
+import simba.utils.Parser;
+import simba.Exceptions.SimbaException;
+import simba.utils.Ui;
 
 public class Simba {
     public static void main(String[] args) throws SimbaException {

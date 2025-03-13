@@ -1,4 +1,7 @@
-package simba;
+package simba.main;
+
+import simba.utils.Parser;
+import simba.utils.Ui;
 
 /**
  * Echoes commands back to the user.

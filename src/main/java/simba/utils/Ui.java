@@ -1,5 +1,6 @@
-package simba;
+package simba.utils;
 
+import simba.main.AllTasksManager;
 import simba.tasks.Task;
 
 import java.util.ArrayList;
