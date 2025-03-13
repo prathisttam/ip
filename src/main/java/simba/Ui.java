@@ -1,5 +1,7 @@
 package simba;
 
+import simba.tasks.Task;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 

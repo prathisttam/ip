@@ -1,6 +1,6 @@
-package simba;
+package simba.tasks;
 
-public class Todo extends Task{
+public class Todo extends Task {
 
     public Todo(String taskDescription){
         super(taskDescription);

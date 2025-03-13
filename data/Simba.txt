@@ -1,29 +1,10 @@
-T | 1|drink
 T | 1|eat
-T | 1|study
-T | 1|hi
+T | 0|hi
 T | 1|hello
-T | 0|eat
+T | 1|eat
 T | 0|eat
 D | 0|return | bookSunday
 E | 0|project meeting |Mon 2pm | 4pm
 D | 0|return book | Sunday
 D | 0|return book | Sunday
-D | 1|return book | Sunday
-E | 0|project meeting |Mon 2pm | 4pm
-E | 0|project meeting |Mon 2pm | 4pm
-E | 0|project meeting |Mon 2pm | 4pm
-T | 0|hi
-E | 0|project meeting |Mon 2pm | 4pm
-E | 0|project meeting |Mon 2pm | 4p
-E | 0|project meeting |Mon 2pm | 4p
-E | 0|project meeting |Mon 2pm | 4pm
-D | 0|return book | Sunday
-D | 0|return book | Sunday
-E | 1|project meeting |Mon 2pm | 4pm
-E | 1|project meeting |Mon 2pm | 4pm
-T | 1|roshni
-E | 1|roshni |10 | 11
-D | 1|roshni | today
-T | 0|task
-E | 0|to |2 | 1
+E | 1|hi |2 | 3

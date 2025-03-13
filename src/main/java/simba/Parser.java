@@ -1,5 +1,10 @@
 package simba;
 
+import simba.tasks.Deadline;
+import simba.tasks.Event;
+import simba.tasks.Task;
+import simba.tasks.Todo;
+
 import java.util.Scanner;
 
 public class Parser {
@@ -90,6 +95,25 @@ public class Parser {
         String endTime = timeParts[1];
 
         return new Event(eventDescription, startTime, endTime);
+    }
+
+    public int parseTaskNumber(String argument, int taskListSize) throws SimbaException {
+        if (argument.isEmpty()){
+            throw new SimbaException("Invalid task number format!");
+        }
+
+        int taskNumber;
+        try {
+            taskNumber = Integer.parseInt(argument);
+        } catch (NumberFormatException e) {
+            throw new SimbaException("Invalid task number format!");
+        }
+
+        if (taskNumber <= 0 || taskNumber > taskListSize) {
+            throw new SimbaException("Invalid task number format!");
+        }
+
+        return taskNumber;
     }
 
     public Task convertStringInStorageToTask(String taskLine) throws SimbaException {

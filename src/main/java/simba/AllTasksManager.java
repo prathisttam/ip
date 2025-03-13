@@ -1,8 +1,11 @@
 package simba;
 
 import data.Storage;
+import simba.tasks.Task;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -90,68 +93,22 @@ public class AllTasksManager {
         userInterface.printSingleTask(number);
     }
 
-    private void handleMark(String argument) throws SimbaException {
-        if (argument.isEmpty()) {
-            throw new SimbaException("Please provide a task number to mark as completed.\nUsage: mark <task_number>");
-        }
-
-        int taskNumber;
-
-        try {
-            taskNumber = Integer.parseInt(argument);
-        } catch (NumberFormatException e) {
-            throw new SimbaException("Invalid task number! Please enter a number.\n Example: mark 2");
-        }
-
-        if (taskNumber <= 0 || taskNumber > tasksList.size()) {
-            throw new SimbaException("Invalid task number! No task exists at that index.");
-        }
-
+    private void handleMark(String argument, Parser parser) throws SimbaException {
+        int taskNumber = parser.parseTaskNumber(argument, tasksList.size());
         tasksList.get(taskNumber - 1).markAsCompleted();
         userInterface.printMarkedTask(taskNumber);
         saveTasksToStorage();
     }
 
-    public void handleDelete(String argument) throws SimbaException {
-        if (argument.isEmpty()) {
-            throw new SimbaException("Please provide a task number to delete.\nUsage: delete <task_number>");
-        }
-
-        int taskNumber;
-
-        try {
-            taskNumber = Integer.parseInt(argument);
-        } catch (NumberFormatException e) {
-            throw new SimbaException("Invalid task number! Please enter a number.\n Example: delete 2");
-        }
-
-        if (taskNumber <= 0 || taskNumber > tasksList.size()) {
-            throw new SimbaException("Invalid task number! No task exists at that index.");
-        }
-
+    public void handleDelete(String argument, Parser parser) throws SimbaException {
+        int taskNumber = parser.parseTaskNumber(argument, tasksList.size());
         Task taskToDelete = tasksList.get(taskNumber - 1);
         tasksList.remove(taskNumber - 1);
         userInterface.printTaskDeleted(taskToDelete, tasksList.size());
     }
 
-    private void handleUnmark(String argument) throws SimbaException {
-
-        if (argument.isEmpty()) {
-            throw new SimbaException("Please provide a task number to unmark.\nUsage: unmark <task_number>");
-        }
-
-        int taskNumber;
-
-        try {
-            taskNumber = Integer.parseInt(argument);
-        } catch (NumberFormatException e) {
-            throw new SimbaException("Invalid task number! Please enter a number.\n Example: unmark 2");
-        }
-
-        if (taskNumber <= 0 || taskNumber > tasksList.size()) {
-            throw new SimbaException("Invalid task number! No task exists at that index.");
-        }
-
+    private void handleUnmark(String argument, Parser parser) throws SimbaException {
+        int taskNumber = parser.parseTaskNumber(argument, tasksList.size());
         tasksList.get(taskNumber - 1).markAsIncomplete();
         userInterface.printUnmarkedTask(taskNumber);
         saveTasksToStorage();
@@ -169,8 +126,12 @@ public class AllTasksManager {
                 storage.saveTasks(taskToSave); //
             }
             storage.saveTasks(String.join(System.lineSeparator(), tasksToSave));
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: Storage file not found. Please check the file path.");
+        } catch (AccessDeniedException e) {
+            System.out.println("Error: Cannot write to file. Please check permissions.");
         } catch (IOException e) {
-            System.out.println("Error saving tasks to storage." + e.getMessage());
+            System.out.println("Error saving tasks: " + e.getMessage());
         }
     }
 
@@ -201,21 +162,21 @@ public class AllTasksManager {
                 break;
             case "mark":
                 try {
-                    handleMark(argument);
+                    handleMark(argument, parser);
                 } catch (SimbaException e) {
                     userInterface.printErrorMessage(e.getMessage());
                 }
                 break;
             case "unmark":
                 try {
-                    handleUnmark(argument);
+                    handleUnmark(argument, parser);
                 } catch (SimbaException e) {
                     userInterface.printErrorMessage(e.getMessage());
                 }
                 break;
             case "delete":
                 try {
-                    handleDelete(argument);
+                    handleDelete(argument, parser);
                 } catch (SimbaException e) {
                     userInterface.printErrorMessage(e.getMessage());
                 }

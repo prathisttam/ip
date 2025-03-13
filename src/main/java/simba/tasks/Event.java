@@ -1,4 +1,4 @@
-package simba;
+package simba.tasks;
 
 public class Event extends Task {
 
