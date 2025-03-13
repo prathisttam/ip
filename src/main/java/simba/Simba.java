@@ -32,11 +32,18 @@ public class Simba {
                 break;
             case "3":
                 userInterface.showExitMessage(); // Exits the application
+                //parser.closeScanner();
                 break;
             default:
                 userInterface.printInvalidMenuChoice();
                 break;
             }
+
+            if (input.equals("3")) {
+                parser.closeScanner();
+                break;
+            }
+
         }
         parser.closeScanner();
     }

@@ -62,6 +62,10 @@ public class Ui {
         printDashedLine();
     }
 
+    public void printMessage(String input) {
+        System.out.println(input);
+    }
+
     /**
      * Prints a single task from the task list.
      *
