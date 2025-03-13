@@ -8,12 +8,17 @@ import java.util.Scanner;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Handles file storage operations for saving and loading tasks.
+ */
 public class Storage {
 
-    private static final String FILE_PATH = "data/Simba.txt";
+    private static final String FILE_PATH = "./data/Simba.txt";
 
     /**
-     * Constructor: Check if the file and folder exist, create them if they don't
+     * Checks if the file and folder exist and creates them if they don't.
+     *
+     * @throws IOException If an error occurs while creating the file or directory.
      */
     public Storage() throws IOException {
         File file = new File(FILE_PATH);
@@ -32,7 +37,11 @@ public class Storage {
         }
     }
 
-     // Processed string --> Basically everything is formatted already
+    /**
+     * Saves the given text to the storage file, overwriting any existing content.
+     *
+     * @throws IOException If an error occurs while writing to the file.
+     */
     public void saveTasks(String textToWrite) throws IOException {
         try ( FileWriter fw = new FileWriter(FILE_PATH)) {
             fw.write(textToWrite);
@@ -43,6 +52,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads tasks from the storage file into a list.
+     *
+     * @return A list of task strings read from the file.
+     * @throws IOException If an error occurs while reading the file.
+     */
     public List<String> loadTasks() throws IOException {
         List<String> tasks = new ArrayList<>();
         try {

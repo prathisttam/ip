@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Manages a list of tasks, allowing users to add, list, mark and unmark tasks.
+ * Manages a list of tasks, allowing users to add, list, delete,  mark, unmark and find tasks by keyword.
+ * Persists tasks added and edited using Storage.
  */
 public class AllTasksManager {
     private static ArrayList<Task> tasksList = new ArrayList<>();
@@ -35,7 +36,10 @@ public class AllTasksManager {
     }
 
     /**
-     * Constructor: Load tasks from file at startup
+     * Constructs an instance of AllTasksManager and loads tasks from storage.
+     *
+     *  @param parser The parser used to convert tasks stored as strings into objects.
+     *  @throws SimbaException If an error occurs while loading tasks from storage.
      */
     public AllTasksManager(Parser parser) throws SimbaException {
         try {
@@ -51,11 +55,8 @@ public class AllTasksManager {
         }
     }
 
-
     /**
-     * Adds a new task to the task list.
-     *
-     * @param taskDescription The description of the task to be added
+     * Adds a new task to the tasksList and saves it to storage.
      */
     public void createTaskFromInput(String taskDescription, Parser parser) {
         try {
@@ -93,6 +94,14 @@ public class AllTasksManager {
         userInterface.printSingleTask(number);
     }
 
+
+    /**
+     * Marks a task as completed.
+     *
+     * @param argument The task number provided by the user.
+     * @param parser The Parser used to validate the task number.
+     * @throws SimbaException If the task number is invalid.
+     */
     private void handleMark(String argument, Parser parser) throws SimbaException {
         int taskNumber = parser.parseTaskNumber(argument, tasksList.size());
         tasksList.get(taskNumber - 1).markAsCompleted();
@@ -100,6 +109,13 @@ public class AllTasksManager {
         saveTasksToStorage();
     }
 
+    /**
+     * Deletes a task from the task list.
+     *
+     * @param argument The task number provided by the user.
+     * @param parser The {@code Parser} used to validate the task number.
+     * @throws SimbaException If the task number is invalid.
+     */
     public void handleDelete(String argument, Parser parser) throws SimbaException {
         int taskNumber = parser.parseTaskNumber(argument, tasksList.size());
         Task taskToDelete = tasksList.get(taskNumber - 1);
@@ -107,6 +123,13 @@ public class AllTasksManager {
         userInterface.printTaskDeleted(taskToDelete, tasksList.size());
     }
 
+    /**
+     * Marks a task as not completed.
+     *
+     * @param argument The task number provided by the user.
+     * @param parser The {@code Parser} used to validate the task number.
+     * @throws SimbaException If the task number is invalid.
+     */
     private void handleUnmark(String argument, Parser parser) throws SimbaException {
         int taskNumber = parser.parseTaskNumber(argument, tasksList.size());
         tasksList.get(taskNumber - 1).markAsIncomplete();
@@ -114,7 +137,10 @@ public class AllTasksManager {
         saveTasksToStorage();
     }
 
-    //recheck this
+    /**
+     * Saves all tasks to storage.
+     * Handles potential file access issues.
+     */
     private void saveTasksToStorage() {
         List<String> tasksToSave = new ArrayList<>();
         for (Task task : tasksList) {
@@ -137,8 +163,7 @@ public class AllTasksManager {
 
 
     /**
-     * Handles user input for adding, listing, marking and unmarking tasks.
-     * User can enter command "bye" to exit
+     * Starts the task management system, allowing users to manage tasks interactively.
      */
     public void startTaskManagement(Parser parser) {
         userInterface.showTaskPrompt();

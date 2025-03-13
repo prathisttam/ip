@@ -7,6 +7,10 @@ import simba.tasks.Todo;
 
 import java.util.Scanner;
 
+/**
+ * Handles user input parsing for task creation and command execution.
+ * Extracts meaningful commands and task details from raw input.
+ */
 public class Parser {
     private final Scanner scanner;
 
@@ -18,10 +22,12 @@ public class Parser {
         return scanner.nextLine().trim();
     }
 
-    public String[] parseTwoPartInput(String input) {
-        return input.split(" ", 2);
-    }
-
+    /**
+     * Splits an input string into two parts at the first space.
+     *
+     * @param input Input string to be split.
+     * @return Array containing the first word and the remaining string.
+     */
     public String[] parseCommand(String input) {
         String[] parts = input.trim().split(" ", 2);
         String command = parts[0].toLowerCase();
@@ -29,6 +35,12 @@ public class Parser {
         return new String[]{command, argument};
     }
 
+    /**
+     * Parses a task creation command such as todo, event or deadline.
+     *
+     * @param taskDescription User input containing the task type and details.
+     * @return A Task object representing the created task.
+     */
     public Task parseTaskCreation(String taskDescription) throws SimbaException {
         String[] parts = taskDescription.split(" ", 2); // To separate out type of task
 
@@ -52,11 +64,11 @@ public class Parser {
     }
 
     /**
-     * Creates a Deadline task by extracting the task description and due date from the input string.
+     * Parses a Deadline task by extracting the task description and due date from the input string.
      *
-     * @param taskDetails The input string containing the task description and due date, formatted as:
-     *                    *                   "description /by dueDate".
-     * @return A new Deadline object if the input is valid, otherwise returns null and prints an error message.
+     * @param taskDetails Input string formatted as "description /by dueDate".
+     * @return A new Deadline object.
+     * @throws SimbaException if input format is invalid.
      */
     private Task parseDeadline(String taskDetails) throws SimbaException {
         String[] parts = taskDetails.split(" /by ", 2);
@@ -69,11 +81,11 @@ public class Parser {
     }
 
     /**
-     * Creates an Event task by extracting the task description, start time, and end time from the input string.
+     * Parses an Event task by extracting the task description, start time, and end time from the input string.
      *
-     * @param taskDetails taskDetails The input string containing the task description, start time, and end time,
-     *                    *                    formatted as: "description /from startTime /to endTime".
-     * @return A new Event object if the input is valid, otherwise returns null and prints an error message.
+     * @param taskDetails Input string formatted as: "description /from startTime /to endTime".
+     * @return A new Event object.
+     * @throws SimbaException if input format is invalid.
      */
     private Task parseEvent(String taskDetails) throws SimbaException {
         String[] parts = taskDetails.split(" /from ", 2);
@@ -97,6 +109,9 @@ public class Parser {
         return new Event(eventDescription, startTime, endTime);
     }
 
+    /**
+     * Parses a task number from user input.
+     */
     public int parseTaskNumber(String argument, int taskListSize) throws SimbaException {
         if (argument.isEmpty()){
             throw new SimbaException("Invalid task number format!");
@@ -116,6 +131,13 @@ public class Parser {
         return taskNumber;
     }
 
+    /**
+     * Converts a stored task string into a Task object.
+     *
+     * @param taskLine Raw string representing a stored task.
+     * @return The reconstructed Task object.
+     * @throws SimbaException If the format is invalid or missing required components.
+     */
     public Task convertStringInStorageToTask(String taskLine) throws SimbaException {
         String[] parts = taskLine.split("\\|");
 

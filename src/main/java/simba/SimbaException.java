@@ -1,6 +1,6 @@
 package simba;
 
-public class SimbaException extends Exception{
+public class SimbaException extends Exception {
     public SimbaException(String message){
         super(message);
     }

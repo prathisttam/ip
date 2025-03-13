@@ -62,17 +62,16 @@ public class Ui {
         printDashedLine();
     }
 
-    //prints a general message
-    public void printMessage(String message){
-        System.out.println(message);
-    }
-
+    /**
+     * Prints a single task from the task list.
+     *
+     * @param taskNumber The position of the task in the list (1-based index).
+     */
     public void printSingleTask(int taskNumber) {
         Task currentTask = AllTasksManager.getTasksList().get(taskNumber - 1);
         System.out.println("  " + currentTask.toString());
     }
 
-    //prints a task list
     public void printTaskList (ArrayList<Task> tasksList) {
         int taskIndex = 1;
         printDashedLine();

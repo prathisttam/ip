@@ -1,10 +1,14 @@
 T | 1|eat
-T | 0|hi
+T | 1|hi
 T | 1|hello
 T | 1|eat
-T | 0|eat
+T | 1|eat
 D | 0|return | bookSunday
 E | 0|project meeting |Mon 2pm | 4pm
 D | 0|return book | Sunday
 D | 0|return book | Sunday
 E | 1|hi |2 | 3
+T | 0|eat food
+T | 0|event
+E | 0|hi |2 | 3
+D | 1|u | 2
