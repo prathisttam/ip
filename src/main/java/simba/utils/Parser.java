@@ -114,7 +114,7 @@ public class Parser {
      * Parses a task number from user input.
      */
     public int parseTaskNumber(String argument, int taskListSize) throws SimbaException {
-        if (argument.isEmpty()){
+        if (argument.isEmpty()) {
             throw new SimbaException("Invalid task number format!");
         }
 

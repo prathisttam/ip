@@ -25,18 +25,20 @@ public class Simba {
 
             switch (input) {
             case "1":
-                echoGame.startEcho(parser); // Starts the Echo game
+                // Starts the Echo game
+                echoGame.startEcho(parser);
                 break;
             case "2":
                 try {
-                    allTasksManager.startTaskManagement(parser); // Starts task management
+                    // Starts task management
+                    allTasksManager.startTaskManagement(parser);
                 } catch (IndexOutOfBoundsException e) {
                     userInterface.printErrorMessage(e.getMessage());
                 }
                 break;
             case "3":
-                userInterface.showExitMessage(); // Exits the application
-                //parser.closeScanner();
+                // Exits the application
+                userInterface.showExitMessage();
                 break;
             default:
                 userInterface.printInvalidMenuChoice();

@@ -41,8 +41,8 @@ public class AllTasksManager {
     /**
      * Constructs an instance of AllTasksManager and loads tasks from storage.
      *
-     *  @param parser The parser used to convert tasks stored as strings into objects.
-     *  @throws SimbaException If an error occurs while loading tasks from storage.
+     * @param parser The parser used to convert tasks stored as strings into objects.
+     * @throws SimbaException If an error occurs while loading tasks from storage.
      */
     public AllTasksManager(Parser parser) throws SimbaException {
         try {
@@ -102,7 +102,7 @@ public class AllTasksManager {
      * Marks a task as completed.
      *
      * @param argument The task number provided by the user.
-     * @param parser The Parser used to validate the task number.
+     * @param parser   The Parser used to validate the task number.
      * @throws SimbaException If the task number is invalid.
      */
     private void handleMark(String argument, Parser parser) throws SimbaException {
@@ -116,7 +116,7 @@ public class AllTasksManager {
      * Deletes a task from the task list.
      *
      * @param argument The task number provided by the user.
-     * @param parser The {@code Parser} used to validate the task number.
+     * @param parser   The {@code Parser} used to validate the task number.
      * @throws SimbaException If the task number is invalid.
      */
     public void handleDelete(String argument, Parser parser) throws SimbaException {
@@ -130,7 +130,7 @@ public class AllTasksManager {
      * Marks a task as not completed.
      *
      * @param argument The task number provided by the user.
-     * @param parser The {@code Parser} used to validate the task number.
+     * @param parser   The {@code Parser} used to validate the task number.
      * @throws SimbaException If the task number is invalid.
      */
     private void handleUnmark(String argument, Parser parser) throws SimbaException {

@@ -11,21 +11,21 @@ public class Ui {
 
     public void showWelcomeMessage() {
         String logo = "____  _           _           \n" +
-                      "/ ___|(_)_ __ ___ | |__   __ _ \n" +
-                      "\\___ \\| | '_ ` _ \\| '_ \\ / _` |\n" +
-                      " ___) | | | | | | | |_) | (_| |\n" +
-                      "|____/|_|_| |_| |_|_.__/ \\__,_|";
+                "/ ___|(_)_ __ ___ | |__   __ _ \n" +
+                "\\___ \\| | '_ ` _ \\| '_ \\ / _` |\n" +
+                " ___) | | | | | | | |_) | (_| |\n" +
+                "|____/|_|_| |_| |_|_.__/ \\__,_|";
 
-        System.out.println("____________________________________________________________");
+        printDashedLine();
         System.out.println("Hello! I'm Simba");
         System.out.println("What can I do for you?\n" + logo);
-        System.out.println("____________________________________________________________");
+        printDashedLine();
     }
 
     public void showExitMessage() {
-        System.out.println("____________________________________________________________");
+        printDashedLine();
         System.out.println("Bye. Hope to see you again soon!");
-        System.out.println("____________________________________________________________");
+        printDashedLine();
     }
 
     public void showMenu() {
