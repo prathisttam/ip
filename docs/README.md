@@ -1,6 +1,12 @@
 # Simba User Guide
 
-// Product screenshot goes here
+```
+                        ____  _           _           
+                      / ___|(_)_ __ ___ | |__   __ _ 
+                      \\___ \\| | '_ ` _| | '_ \\ / |
+                       ___) | | | | | | | |_) | (_| |
+                      |____/|_|_| |_| |_|_.__/ \\__,_|
+```
 ## 🐾 Introduction
 **Simba** is a **task management chatbot** designed for users who prefer **command-line interactions**. It helps users 
 manage their **to-dos, deadlines, and events**, allowing them to track tasks efficiently.
@@ -45,7 +51,8 @@ To proceed:
 
 > [!NOTE]
 > Words enclosed within `<>` are placeholders for user input
-> 
+
+
 ## Echo game 
 ### 1. Echo
 ***Syntax:*** `<user input of string>`

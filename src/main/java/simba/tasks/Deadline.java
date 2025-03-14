@@ -24,7 +24,7 @@ public class Deadline extends Task {
     }
 
     /**
-     * Returns a formatted string representation of the deadline task for storage.
+     * Returns a formatted string of the deadline task "D | {task data} | {task due by date}" for storage.
      *
      * @return A string formatted for file storage.
      */

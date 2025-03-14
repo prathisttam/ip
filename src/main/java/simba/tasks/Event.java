@@ -10,7 +10,11 @@ public class Event extends Task {
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
     }
-
+    /**
+     * Returns a string representation of the event task.
+     *
+     * @return Formatted string including the task type, description, start time and end time.
+     */
     public String toString(){
         return "[E]" + super.toString() + " (from: " + eventStartTime + " to: " + eventEndTime + ")";
     }
@@ -24,9 +28,9 @@ public class Event extends Task {
     }
 
     /**
-     * Returns a string representation of the event task.
+     * Returns a formatted string of event task "E | {task data} | {task start date} | {task due date}" for storage.
      *
-     * @return Formatted string including the task type, description, start time, and end time.
+     * @return A String formatted for storage.
      */
     @Override
     public String toStorageString(){
