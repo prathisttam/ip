@@ -10,24 +10,11 @@ public class Ui {
     private final Scanner scanner = new Scanner(System.in);
 
     public void showWelcomeMessage() {
-        String logo =
-                "⠀                        ⢠⡴⣴⣠⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
-                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠃⣀⣀⣉⣐⣒⠊⠡⠤⢄⣀⠀⠀⠀⠀⠀⠀⢀⡀⠤⠄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
-                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⢀⡠⣊⣴⣿⣿⣿⣿⣷⡶⠄⠲⣿⣶⣦⣬⣑⠢⠀⠤⢂⣥⣶⣿⡶⠄⠑⡄⠀⠀⠀⠀⠀⠀⠀⠀\n" +
-                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⢊⣤⣦⣬⣑⡢⢄⣀⣀⠔⣡⣾⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⡿⢿⣷⣶⣿⣿⣿⣿⢃⣀⠀⠀⠘⡄⠀⠀⠀⠀⠀⠀⠀\n" +
-                        "⠀⠀⠀⠀⠀⠀⠀⠀⡐⠐⠉⠉⠙⢿⣿⣿⣷⣶⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢋⣤⣤⣈⢿⣿⣿⣿⠇⡾⠿⣧⠀⠀⢡⠀⠀⠀⠀⠀⠀⠀\n" +
-                        "⠀⠀⠀⠀⠀⠀⠀⢀⠁⠀⢠⣶⣿⡎⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣻⣿⣿⣿⣿⣿⣿⣿⡿⢡⣿⡿⢿⣿⣧⢿⣿⡿⣠⣾⣿⣿⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀\n" +
-                        "⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⢸⣿⣭⣛⡘⣿⣿⣿⠿⢛⡋⠩⠥⣦⠹⣿⣿⣿⣿⣿⣿⣿⠇⡾⠋⠀⡡⡸⣿⡌⡿⢑⣭⣽⣿⡿⠀⠀⡘⠀⠀⠀⠀⠀⠀⠀\n" +
-                        "⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⢸⣿⣻⣭⡥⠘⣿⢇⡾⢡⠀⠀⠆⠘⣧⢻⣿⣿⢿⣿⣿⣿⠀⢃⠀⠀⠁⡅⠸⠇⡇⣶⣶⣶⡿⠁⠀⢠⠃⠀⠀⠀⠀⠀⠀⠀\n" +
-                        "⠀⠀⠀⠀⠀⠀⠀⠀⢣⠀⠀⠻⣿⣯⣴⣿⢸⡈⢅⡈⠦⣀⡠⠆⠹⠈⢁⣤⣽⣿⣿⣿⡀⣃⡑⠒⠊⠥⢚⣰⣿⠘⠛⠉⠀⠀⡠⠃⠀⠀⠀⠀⠀⠀⠀⠀\n" +
-                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⢄⠀⠈⠙⠛⠛⢸⣿⣷⣮⣭⣀⣬⡴⠢⣰⣿⣿⣿⣿⣿⣿⣷⠦⢘⠻⡿⠿⣿⣿⣿⡇⢀⠖⠒⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
-                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠢⠤⠀⢀⠈⣿⣿⣿⣿⡿⢋⣴⢑⣛⣛⠿⠿⠿⠟⣫⠖⠲⣸⣷⡆⣶⣾⣿⣿⢁⣾⡼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
-                        "⠀⠀⠀⠀⠀⢀⣀⣠⣄⣀⣀⠀⠀⠀⢀⢜⣴⣉⢿⣿⠿⠦⢛⣿⣷⣄⣈⠙⠿⣶⠿⢟⣠⣾⣿⣿⡂⠶⣶⠌⣡⣭⣛⡃⣄⣠⣤⣤⣤⣤⣀⡀⠀⠀⠀⠀\n" +
-                        "⠀⠀⡀⣴⣾⣿⣿⣿⠿⠿⠿⢿⣷⣖⣵⣿⢟⣫⣥⠄⠻⠟⡀⡹⢿⣿⣿⣿⣷⡦⠸⠿⣿⣿⣿⢟⢅⢛⢠⣬⣛⢿⣿⣿⠿⠿⠟⠿⠿⠿⠿⠛⠢⣦⣀⠀\n" +
-                        "⣴⠟⣫⣤⡬⣡⣤⡖⣼⣿⣷⣶⣌⠻⠿⠚⣋⣥⡶⢊⣵⣦⡝⠐⣮⣝⣛⣋⣥⣶⣶⣶⣶⣤⣴⡿⣰⣝⢷⣬⡻⣷⠋⣤⣾⣿⣿⣎⢲⣶⣄⠻⣷⣦⠹⣧\n" +
-                        "⣿⢸⣿⡏⢼⣿⣿⡆⢿⣿⣿⣿⣿⡧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⠏⣼⣿⣿⡇⢸⣿⢀⡿\n" +
-                        "⢻⡄⢿⣧⡘⢿⣿⣿⣦⡙⢿⣿⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⡿⢋⣼⣿⣿⡟⣠⣿⠏⣼⠃\n" +
-                        "⠀⠻⣌⠻⣷⣌⠻⢿⣿⣿⠆⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠐⢿⣿⠿⢋⣴⡿⠋⠜⠁⠀";
+        String logo = "____  _           _           \n" +
+                      "/ ___|(_)_ __ ___ | |__   __ _ \n" +
+                      "\\___ \\| | '_ ` _ \\| '_ \\ / _` |\n" +
+                      " ___) | | | | | | | |_) | (_| |\n" +
+                      "|____/|_|_| |_| |_|_.__/ \\__,_|";
 
         System.out.println("____________________________________________________________");
         System.out.println("Hello! I'm Simba");
@@ -77,10 +64,10 @@ public class Ui {
         System.out.println("  " + currentTask.toString());
     }
 
-    public void printTaskList (ArrayList<Task> tasksList) {
+    public void printTaskList(ArrayList<Task> tasksList) {
         int taskIndex = 1;
         printDashedLine();
-        for (Task task: tasksList) {
+        for (Task task : tasksList) {
             System.out.println(taskIndex + "." + task.toString()); //new
             taskIndex += 1;
         }
@@ -102,21 +89,21 @@ public class Ui {
         printDashedLine();
     }
 
-    public void printUnmarkedTask (int taskNumber) {
+    public void printUnmarkedTask(int taskNumber) {
         printDashedLine();
         System.out.println("OK, I've marked this task as not done yet:");
         printSingleTask(taskNumber);
         printDashedLine();
     }
 
-    public void printMarkedTask (int taskNumber) {
+    public void printMarkedTask(int taskNumber) {
         printDashedLine();
         System.out.println("Nice! I've marked this task as done:");
         printSingleTask(taskNumber);
         printDashedLine();
     }
 
-    public void showTaskPrompt(){
+    public void showTaskPrompt() {
         System.out.println("Please enter the tasks you have yet to complete or type \"List\" to list pending tasks");
     }
 

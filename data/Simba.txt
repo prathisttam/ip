@@ -3,8 +3,10 @@ T | 1|hi
 T | 1|hello
 T | 1|eat
 T | 1|eat
-D | 0|return | bookSunday
+D | 1|return | bookSunday
 E | 0|project meeting |Mon 2pm | 4pm
 D | 0|return book | Sunday
 D | 0|return book | Sunday
-E | 1|hi |2 | 3
+E | 0|todo |to | s
+D | 0|hi | j
+T | 0|user
