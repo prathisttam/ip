@@ -133,7 +133,7 @@ You have 3 tasks in the list.
 
 ### 5. Marking tasks as done: **`mark`**
 
-**Syntax** `mark <task type> <task index in list>`
+**Syntax** `mark <task index in list>`
 
 **Example:**
 --------------------------------------------------------------
@@ -147,7 +147,7 @@ Nice! I’ve marked task as done:
 
 ### 6. Unmarking tasks as incomplete: **`unmark`**
 
-**Syntax** `unmark <task type> <task index in list>`
+**Syntax** `unmark <task index in list>`
 
 **Example:**
 --------------------------------------------------------------
@@ -161,7 +161,7 @@ OK, I've marked this task as not done yet:
 
 ### 7. Deleting tasks: **`delete`**
 
-**Syntax** `delete <task type> <task index in list>`
+**Syntax** `delete <task index in list>`
 
 **Example:**
 --------------------------------------------------------------
