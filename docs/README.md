@@ -32,7 +32,7 @@ manage their **to-dos, deadlines, and events**, allowing them to track tasks eff
 
 ## 📜 Getting Started
 1. Ensure you have Java `17` or above installed on your computer.
-2. Download the latest `.jar` from .
+2. Download the latest `.jar` from [here](https://github.com/prathisttam/ip/releases)
 3. Copy the file to the folder you want to use as the home folder for your TaskList.
 4. Open a command terminal, `cd` into the folder you put the jar file in and run the following:
 ```
