@@ -88,7 +88,7 @@ You have 1 tasks in the list
 
 ### 2. Adding deadlines: **`deadline`**
 
-**Syntax** `deadline <task description> /by <date>`
+**Syntax** `deadline <task description> /by <deadline>`
 
 **Example:**
 --------------------------------------------------------------
@@ -103,7 +103,7 @@ Now you have 2 tasks in the list.
 
 ### 3. Adding events: **`event`**
 
-**Syntax** `event <task description> /from <start date> /to <end date>`
+**Syntax** `event <task description> /from <start of deadline> /to <end of deadline>`
 
 **Example:**
 --------------------------------------------------------------
